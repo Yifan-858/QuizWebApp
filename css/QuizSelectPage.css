@@ -1,0 +1,12 @@
+.quiz-select-page {
+  display: flex;
+  flex-direction: row;
+}
+
+.score-section {
+  flex: 1;
+}
+
+.quiz-card-container {
+  flex: 3;
+}

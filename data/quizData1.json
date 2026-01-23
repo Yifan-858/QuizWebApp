@@ -1,0 +1,115 @@
+{
+  "Title": "Snack Quiz",
+  "Questions": [
+    {
+      "Statement": "Which Swedish snack is a small sweet bun filled with almond paste and whipped cream?",
+      "CorrectAnswer": 1,
+      "ImagePath":"Image/SnackImage/SnackQuestion01.jpg",
+      "Answers": [
+        "Kanelbulle",
+        "Semla",
+        "Knäckebröd",
+        "Prinsesstårta"
+      ]
+    },
+    {
+      "Statement": "Which Indian snack is made from chickpea flour and deep-fried?",
+      "CorrectAnswer": 0,
+      "ImagePath": "Image/SnackImage/SnackQuestion02.jpg",
+      "Answers": [
+        "Pakora",
+        "Samosa",
+        "Chaat",
+        "Ladoo"
+      ]
+    },
+    {
+      "Statement": "Which Italian snack is a thin, crispy breadstick?",
+      "CorrectAnswer": 1,
+      "ImagePath": "Image/SnackImage/SnackQuestion03.jpg",
+      "Answers": [
+        "Focaccia",
+        "Grissini",
+        "Ciabatta",
+        "Panettone"
+      ]
+    },
+    {
+      "Statement": "Which Mexican snack is made from corn and often coated in chili and lime?",
+      "CorrectAnswer": 3,
+      "ImagePath": "Image/SnackImage/SnackQuestion04.jpg",
+      "Answers": [
+        "Taco",
+        "Tamale",
+        "Quesadilla",
+        "Elote Corn Snacks"
+      ]
+    },
+    {
+      "Statement": "Which Belgian snack is fried twice to make it extra crispy?",
+      "CorrectAnswer": 2,
+      "ImagePath": "Image/SnackImage/SnackQuestion05.jpg",
+      "Answers": [
+        "Croquette",
+        "Waffle",
+        "French Fries",
+        "Speculoos"
+      ]
+    },
+    {
+      "Statement": "Which Korean snack is a sweet, chewy rice cake?",
+      "CorrectAnswer": 0,
+      "ImagePath": "Image/SnackImage/SnackQuestion06.jpg",
+      "Answers": [
+        "Tteok",
+        "Kimchi",
+        "Bulgogi",
+        "Kimbap"
+      ]
+    },
+    {
+      "Statement": "Which Turkish snack is a thin, nut-filled pastry?",
+      "CorrectAnswer": 3,
+      "ImagePath": "Image/SnackImage/SnackQuestion07.jpg",
+      "Answers": [
+        "Lokum",
+        "Baklava roll",
+        "Pide",
+        "Baklava"
+      ]
+    },
+    {
+      "Statement": "Which American snack is a chocolate-coated peanut butter treat?",
+      "CorrectAnswer": 1,
+      "ImagePath": "Image/SnackImage/SnackQuestion08.jpg",
+      "Answers": [
+        "Twix",
+        "Reese’s",
+        "KitKat",
+        "Snickers"
+      ]
+    },
+    {
+      "Statement": "Which French snack is a flaky, buttery pastry often eaten for breakfast?",
+      "CorrectAnswer": 0,
+      "ImagePath": "Image/SnackImage/SnackQuestion09.jpg",
+      "Answers": [
+        "Croissant",
+        "Baguette",
+        "Éclair",
+        "Madeleine"
+      ]
+    },
+    {
+      "Statement": "Which Chinese snack is a thin, crispy wonton-like pastry?",
+      "CorrectAnswer": 1,
+      "ImagePath": "Image/SnackImage/SnackQuestion10.jpg",
+      "Answers": [
+        "Baozi",
+        "Spring Roll",
+        "Jiaozi",
+        "Tangyuan"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "Title": "Game Quiz",
+  "Questions": [
+    {
+      "Statement": "Which Japanese game involves matching colorful blocks that fall from the top of the screen?",
+      "CorrectAnswer": 2,
+      "ImagePath": "Image/GameImage/GameQuestion01.jpg",
+      "Answers": [
+        "Street Fighter",
+        "Final Fantasy",
+        "Tetris",
+        "Pac-Man"
+      ]
+    },
+    {
+      "Statement": "Which Swedish video game company created the famous game 'Minecraft'?",
+      "CorrectAnswer": 0,
+      "ImagePath": "Image/GameImage/GameQuestion02.jpg",
+      "Answers": [
+        "Mojang",
+        "EA Games",
+        "Ubisoft",
+        "Blizzard"
+      ]
+    },
+    {
+      "Statement": "Which Russian board game is similar to chess but uses different pieces called 'checkers'?",
+      "CorrectAnswer": 1,
+      "ImagePath": "Image/GameImage/GameQuestion03.jpg",
+      "Answers": [
+        "Shogi",
+        "Draughts/Checkers",
+        "Go",
+        "Backgammon"
+      ]
+    },
+    {
+      "Statement": "Which traditional Korean game uses four sticks and is played similarly to dice?",
+      "CorrectAnswer": 3,
+      "ImagePath": "Image/GameImage/GameQuestion04.jpg",
+      "Answers": [
+        "Go-Stop",
+        "Hanafuda",
+        "Mahjong",
+        "Yut Nori"
+      ]
+    },
+    {
+      "Statement": "Which classic American board game involves buying properties and collecting rent?",
+      "CorrectAnswer": 0,
+      "ImagePath": "Image/GameImage/GameQuestion05.jpg",
+      "Answers": [
+        "Monopoly",
+        "Clue",
+        "Scrabble",
+        "Risk"
+      ]
+    },
+    {
+      "Statement": "Which traditional Indian game involves moving pieces on a board based on dice rolls, aiming to reach the end first?",
+      "CorrectAnswer": 2,
+      "ImagePath": "Image/GameImage/GameQuestion06.jpg",
+      "Answers": [
+        "Carrom",
+        "Chess",
+        "Snakes and Ladders",
+        "Ludo"
+      ]
+    },
+    {
+      "Statement": "Which Chinese game is played with tiles and involves matching sets of numbers and symbols?",
+      "CorrectAnswer": 3,
+      "ImagePath": "Image/GameImage/GameQuestion07.jpg",
+      "Answers": [
+        "Xiangqi",
+        "Go",
+        "Pai Gow",
+        "Mahjong"
+      ]
+    },
+    {
+      "Statement": "Which board game originated in Germany and involves building settlements, roads, and cities with resource cards?",
+      "CorrectAnswer": 0,
+      "ImagePath": "Image/GameImage/GameQuestion08.jpg",
+      "Answers": [
+        "Catan",
+        "Risk",
+        "Carcassonne",
+        "Ticket to Ride"
+      ]
+    },
+    {
+      "Statement": "Which African game uses a wooden board and seeds, played by moving seeds around pits?",
+      "CorrectAnswer": 1,
+      "ImagePath": "Image/GameImage/GameQuestion09.jpg",
+      "Answers": [
+        "Senet",
+        "Mancala",
+        "Bao",
+        "Kalah"
+      ]
+    },
+    {
+      "Statement": "Which Finnish outdoor game involves throwing wooden sticks at a wooden target?",
+      "CorrectAnswer": 2,
+      "ImagePath": "Image/GameImage/GameQuestion10.jpg",
+      "Answers": [
+        "Kubb",
+        "Molky",
+        "Tikanheitto",
+        "Pesäpallo"
+      ]
+    }
+  ]
+}
