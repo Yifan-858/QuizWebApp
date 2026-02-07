@@ -6,16 +6,66 @@
 
 :root {
   --background-color: #121317;
-  --sub-background-color: #6e6f70;
+  --sub-background-color: #2b2b2b;
+  --primary-color: #9e90f7;
+  --sub-color: #ff7a41;
 }
 
 body {
   font-family: Arial, Helvetica, sans-serif;
   color: aliceblue;
   background-color: var(--background-color);
+  min-height: 100vh;
 }
 
 .top-bar {
   background-color: var(--sub-background-color);
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 4rem;
+  padding: 0 2rem;
+}
+
+.logo {
+  display: flex;
+}
+
+.logo i,
+.logo p {
+  font-size: 1.5rem;
+  margin-right: 8px;
+}
+
+.logo i {
+  color: var(--primary-color);
+}
+
+.logo p {
+  font-weight: 700;
+}
+
+.admin-login-btn {
+  min-width: 150px;
+  min-height: 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 15px;
+  background-color: var(--sub-color);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-login-btn:hover {
+  color: aliceblue;
+  background-color: var(--primary-color);
+}
+
+main,
+footer {
+  padding: 3rem;
+}
+
+footer {
+  text-align: center;
 }

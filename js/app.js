@@ -34,7 +34,7 @@ const showScore = (container) => {
   container.innerHTML = "";
   const resultElement = document.createElement("p");
   resultElement.classList.add("result-element");
-  resultElement.textContent = "Quiz finished! Your result:";
+  resultElement.textContent = "Quiz finished! See your result below 👇";
   container.appendChild(resultElement);
 };
 
@@ -92,6 +92,7 @@ const renderQuestionContainer = (questions) => {
   questionPage.appendChild(questionContainer);
 
   const exitBtn = document.createElement("button");
+  exitBtn.classList.add("home-btn");
   exitBtn.textContent = "< Homepage";
   exitBtn.addEventListener("click", () => showPage("quiz-select-page"));
   questionContainer.appendChild(exitBtn);
@@ -130,14 +131,24 @@ const renderQuizCard = (quizzes) => {
     quizTitle.textContent = quiz.Title;
     quizCard.appendChild(quizTitle);
     console.log(quiz);
-    const questionCount = document.createElement("h4");
-    questionCount.textContent = quiz.Questions.length;
-    quizCard.appendChild(questionCount);
+
+    const countContainer = document.createElement("div");
+    countContainer.classList.add("count-container");
+    quizCard.appendChild(countContainer);
 
     const startBtn = document.createElement("button");
-    startBtn.textContent = ">";
+    startBtn.textContent = "Start Quiz >";
     startBtn.addEventListener("click", () => handleQuizClick(quiz.id));
     quizCard.appendChild(startBtn);
+
+    const countIcon = document.createElement("i");
+    countIcon.classList.add("fa-regular");
+    countIcon.classList.add("fa-square");
+    countContainer.appendChild(countIcon);
+
+    const questionCount = document.createElement("h4");
+    questionCount.textContent = quiz.Questions.length + " questions";
+    countContainer.appendChild(questionCount);
   });
 };
 
@@ -170,3 +181,5 @@ const loadQuiz = async () => {
 
 showPage("quiz-select-page");
 loadQuiz();
+
+//----------------------Handle Admin Login---------------------//

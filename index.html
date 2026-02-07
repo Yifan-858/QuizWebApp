@@ -7,23 +7,26 @@
   <title>Quiz App</title>
   <link rel="stylesheet" href="./css/Root.css">
   <link rel="stylesheet" href="./css/QuizSelectPage.css">
+  <link rel="stylesheet" href="./css/QuestionPage.css">
   <script type="module" src="./js/app.js" defer></script>
+  <script src="https://kit.fontawesome.com/9b57023c2c.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
   <header class="top-bar">
     <div class="logo">
+      <i class="fa-solid fa-icons"></i>
       <p>Little Quiz</p>
     </div>
-    <div class="top-bar-user">
-      <p>user image</p>
-    </div>
+    <button class="admin-login-btn">Admin Login</button>
   </header>
 
   <main>
     <section class="quiz-select-page" id="quiz-select-page">
-      <div class="score-section">
-        <p>Hi, this is score section</p>
+      <div class="welcome-section">
+        <img class="select-page-image" src="./assets/select-page.jpg" alt="select-page-image">
+        <h1>Welcome to Little Quiz</h1>
+        <h2>Choose one quiz to start the game</h2>
       </div>
       <div class="quiz-card-container" id="quiz-card-container">
       </div>
