@@ -19,9 +19,12 @@ const showPage = (pageId) => {
   }
 };
 
+const homeTitle = document.getElementById("home-title");
+homeTitle.addEventListener("click", () => showPage("quiz-select-page"));
+
 //----------------------Handle UI render---------------------//
 //-----------------------------------//
-//----------Handel Score----------//
+//----------Handle Score----------//
 //-----------------------------------//
 
 const scoreCount = (selectedAnswer, correctAnswer) => {
@@ -152,6 +155,207 @@ const renderQuizCard = (quizzes) => {
   });
 };
 
+//----------------------Handle Admin Login---------------------//
+const admin = { userName: "Yifan", password: "123456" };
+const handleAdminClick = () => {
+  showPage("admin-login-page");
+};
+
+const handleLoginClick = () => {
+  if (
+    userNameInput.value == admin.userName &&
+    passwordInput.value == admin.password
+  ) {
+    showPage("admin-page");
+  } else {
+    alert("Invalid Login");
+  }
+};
+
+const adminLoginBtn = document.getElementById("admin-login-btn");
+adminLoginBtn.addEventListener("click", () => handleAdminClick());
+
+const adminLoginPage = document.getElementById("admin-login-page");
+
+const loginContainer = document.createElement("div");
+adminLoginPage.appendChild(loginContainer);
+
+const userNameLabel = document.createElement("p");
+userNameLabel.textContent = "User Name";
+loginContainer.appendChild(userNameLabel);
+
+const userNameInput = document.createElement("input");
+userNameInput.type = "text";
+loginContainer.appendChild(userNameInput);
+
+const passwordLabel = document.createElement("p");
+passwordLabel.textContent = "Password";
+loginContainer.appendChild(passwordLabel);
+
+const passwordInput = document.createElement("input");
+passwordInput.type = "password";
+loginContainer.appendChild(passwordInput);
+
+const submitBtn = document.createElement("button");
+submitBtn.classList.add("submit-btn");
+submitBtn.textContent = "Login";
+submitBtn.type = "button";
+submitBtn.addEventListener("click", () => handleLoginClick());
+loginContainer.appendChild(submitBtn);
+
+const renderAdminPage = () => {};
+
+//----------------------Handle Admin Interface---------------------//
+const adminPage = document.getElementById("admin-page");
+
+const actionCotainer = document.createElement("div");
+actionCotainer.classList.add("action-cotainer");
+adminPage.appendChild(actionCotainer);
+
+const actionLabel = document.createElement("h4");
+actionLabel.textContent = "Quiz Action";
+actionLabel.classList.add("action-lable");
+actionCotainer.appendChild(actionLabel);
+
+const handleAddQuiz = () => {
+  showPage("add-quiz-page");
+};
+
+const addQuizBtn = document.createElement("button");
+addQuizBtn.textContent = "Add";
+addQuizBtn.addEventListener("click", () => handleAddQuiz());
+actionCotainer.appendChild(addQuizBtn);
+const deleteQuizBtn = document.createElement("button");
+deleteQuizBtn.textContent = "Delete";
+actionCotainer.appendChild(deleteQuizBtn);
+
+//-Add//
+const addQuizPage = document.getElementById("add-quiz-page");
+
+const addQuizForm = document.createElement("div");
+addQuizForm.classList.add("add-quiz-form");
+addQuizPage.appendChild(addQuizForm);
+
+const titleLabel = document.createElement("p");
+titleLabel.textContent = "Quiz Title";
+addQuizForm.appendChild(titleLabel);
+
+const titleInput = document.createElement("input");
+titleInput.type = "text";
+addQuizForm.appendChild(titleInput);
+
+const questionsContainer = document.createElement("div");
+questionsContainer.classList.add("questions-container");
+addQuizForm.appendChild(questionsContainer);
+
+const createQuestionForm = () => {
+  const questionDiv = document.createElement("div");
+  questionDiv.classList.add("question-form");
+
+  const qLabel = document.createElement("p");
+  qLabel.textContent = "Question:";
+  questionDiv.appendChild(qLabel);
+
+  const qInput = document.createElement("input");
+  qInput.type = "text";
+  qInput.placeholder = "Enter question text";
+  questionDiv.appendChild(qInput);
+
+  const answersContainer = document.createElement("div");
+  answersContainer.classList.add("answers-container");
+
+  for (let i = 0; i < 4; i++) {
+    const answerInput = document.createElement("input");
+    answerInput.type = "text";
+    answerInput.placeholder = `Answer ${i + 1}`;
+    answerInput.classList.add("answer-input");
+    answersContainer.appendChild(answerInput);
+  }
+
+  questionDiv.appendChild(answersContainer);
+
+  const correctLabel = document.createElement("p");
+  correctLabel.textContent = "Correct answer (1-4):";
+  questionDiv.appendChild(correctLabel);
+
+  const correctInput = document.createElement("input");
+  correctInput.type = "number";
+  correctInput.min = 1;
+  correctInput.max = 4;
+  correctInput.placeholder = "Correct answer number";
+  questionDiv.appendChild(correctInput);
+
+  questionsContainer.appendChild(questionDiv);
+};
+
+const addQuestionBtn = document.createElement("button");
+addQuestionBtn.textContent = "Add Question";
+addQuestionBtn.addEventListener("click", () => createQuestionForm());
+addQuizForm.appendChild(addQuestionBtn);
+
+const addQuizSubmit = document.createElement("button");
+addQuizSubmit.textContent = "Submit Quiz";
+addQuizSubmit.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  const title = titleInput.value.trim();
+  if (!title) {
+    alert("Quiz must have a title");
+    return;
+  }
+
+  const questionForms = questionsContainer.querySelectorAll(".question-form");
+  if (questionForms.length === 0) {
+    alert("Add at least one question");
+    return;
+  }
+
+  const questions = [];
+
+  questionForms.forEach((qForm, qIndex) => {
+    const qInput = qForm.querySelector("input[type=text]");
+    const answerInputs = qForm.querySelectorAll(".answer-input");
+    const correctInput = qForm.querySelector("input[type=number]");
+
+    const questionText = qInput.value.trim();
+    const options = Array.from(answerInputs).map((i) => i.value.trim());
+    const correctIndex = parseInt(correctInput.value, 10);
+
+    if (!questionText || options.some((opt) => !opt) || isNaN(correctIndex)) {
+      alert(`Question ${qIndex + 1} is invalid. Fill all fields.`);
+      return;
+    }
+
+    questions.push({
+      id: qIndex + 1,
+      questionText: questionText,
+      options: options,
+      answer: options[correctIndex - 1],
+    });
+  });
+
+  const newQuiz = {
+    id: (quizzes.length + 1).toString(),
+    Title: title,
+    Questions: questions,
+  };
+
+  quizzes.push(newQuiz);
+
+  localStorage.setItem("quizzes", JSON.stringify(quizzes));
+
+  renderQuizCard(quizzes);
+
+  titleInput.value = "";
+  questionsContainer.innerHTML = "";
+  alert("Quiz added successfully!");
+  showPage("quiz-select-page");
+});
+
+addQuizForm.appendChild(addQuizSubmit);
+
+//-Delete//
+
 //----------------------Load Quiz Data---------------------//
 const loadQuiz = async () => {
   try {
@@ -179,7 +383,5 @@ const loadQuiz = async () => {
   }
 };
 
-showPage("quiz-select-page");
+showPage("add-quiz-page");
 loadQuiz();
-
-//----------------------Handle Admin Login---------------------//
