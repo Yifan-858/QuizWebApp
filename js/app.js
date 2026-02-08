@@ -218,8 +218,6 @@ submitBtn.type = "button";
 submitBtn.addEventListener("click", () => handleLoginClick());
 loginContainer.appendChild(submitBtn);
 
-const renderAdminPage = () => {};
-
 //----------------------Handle Admin Interface---------------------//
 const adminPage = document.getElementById("admin-page");
 
@@ -535,5 +533,5 @@ const loadQuiz = async () => {
   }
 };
 
-showPage("admin-page");
+showPage("quiz-select-page");
 loadQuiz();
