@@ -192,6 +192,7 @@ adminLoginBtn.addEventListener("click", () => handleAdminClick());
 const adminLoginPage = document.getElementById("admin-login-page");
 
 const loginContainer = document.createElement("div");
+loginContainer.classList.add("login-container");
 adminLoginPage.appendChild(loginContainer);
 
 const userNameLabel = document.createElement("p");
@@ -223,7 +224,7 @@ const renderAdminPage = () => {};
 const adminPage = document.getElementById("admin-page");
 
 const actionCotainer = document.createElement("div");
-actionCotainer.classList.add("action-cotainer");
+actionCotainer.classList.add("action-container");
 adminPage.appendChild(actionCotainer);
 
 const actionLabel = document.createElement("h4");
@@ -260,17 +261,17 @@ questionsContainer.classList.add("questions-container");
 addQuizForm.appendChild(questionsContainer);
 
 const createQuestionForm = () => {
-  const questionDiv = document.createElement("div");
-  questionDiv.classList.add("question-form");
+  const questionContainer = document.createElement("div");
+  questionContainer.classList.add("question-form");
 
   const qLabel = document.createElement("p");
   qLabel.textContent = "Question:";
-  questionDiv.appendChild(qLabel);
+  questionContainer.appendChild(qLabel);
 
   const qInput = document.createElement("input");
   qInput.type = "text";
   qInput.placeholder = "Enter question text";
-  questionDiv.appendChild(qInput);
+  questionContainer.appendChild(qInput);
 
   const answersContainer = document.createElement("div");
   answersContainer.classList.add("answers-container");
@@ -283,20 +284,20 @@ const createQuestionForm = () => {
     answersContainer.appendChild(answerInput);
   }
 
-  questionDiv.appendChild(answersContainer);
+  questionContainer.appendChild(answersContainer);
 
   const correctLabel = document.createElement("p");
   correctLabel.textContent = "Correct answer (1-4):";
-  questionDiv.appendChild(correctLabel);
+  questionContainer.appendChild(correctLabel);
 
   const correctInput = document.createElement("input");
   correctInput.type = "number";
   correctInput.min = 1;
   correctInput.max = 4;
   correctInput.placeholder = "Correct answer number";
-  questionDiv.appendChild(correctInput);
+  questionContainer.appendChild(correctInput);
 
-  questionsContainer.appendChild(questionDiv);
+  questionsContainer.appendChild(questionContainer);
 };
 
 const addQuestionBtn = document.createElement("button");
@@ -304,9 +305,10 @@ addQuestionBtn.textContent = "Add Question";
 addQuestionBtn.addEventListener("click", () => createQuestionForm());
 addQuizForm.appendChild(addQuestionBtn);
 
-const addQuizSubmit = document.createElement("button");
-addQuizSubmit.textContent = "Submit Quiz";
-addQuizSubmit.addEventListener("click", (e) => {
+const quizSubmitBtn = document.createElement("button");
+quizSubmitBtn.textContent = "Submit Quiz";
+quizSubmitBtn.classList.add("quiz-submit-button");
+quizSubmitBtn.addEventListener("click", (e) => {
   e.preventDefault();
 
   const title = titleInput.value.trim();
@@ -371,36 +373,20 @@ addQuizSubmit.addEventListener("click", (e) => {
   renderQuizCard(quizzes);
 
   editingQuizId = null;
-  addQuizSubmit.textContent = "Submit Quiz";
+  quizSubmitBtn.textContent = "Submit Quiz";
   titleInput.value = "";
   questionsContainer.innerHTML = "";
 
   showPage("admin-page");
 });
 
-addQuizForm.appendChild(addQuizSubmit);
+addQuizForm.appendChild(quizSubmitBtn);
 
 //Update
 const updateQuizPage = document.getElementById("update-quiz-page");
 const updateQuizContainer = document.createElement("div");
+updateQuizContainer.classList.add("update-quiz-container");
 updateQuizPage.appendChild(updateQuizContainer);
-
-const updateQuiz = (quizId) => {
-  const quizIndex = quizzes.findIndex((q) => q.id === quizId);
-  if (quizIndex === -1) return;
-
-  quizzes[quizIndex].Title = titleInput.value.trim();
-
-  saveQuizzesToStorage();
-  renderQuizCard(quizzes);
-  renderUpdateQuizList();
-
-  titleInput.value = "";
-  questionsContainer.innerHTML = "";
-
-  addQuizSubmit.textContent = "Submit Quiz";
-  showPage("admin-page");
-};
 
 const editQuiz = (quizId) => {
   const quiz = quizzes.find((q) => q.id === quizId);
@@ -412,13 +398,13 @@ const editQuiz = (quizId) => {
   questionsContainer.innerHTML = "";
 
   quiz.Questions.forEach((question) => {
-    const questionDiv = document.createElement("div");
-    questionDiv.classList.add("question-form");
+    const questionContainer = document.createElement("div");
+    questionContainer.classList.add("question-form");
 
     const qInput = document.createElement("input");
     qInput.type = "text";
     qInput.value = question.Statement;
-    questionDiv.appendChild(qInput);
+    questionContainer.appendChild(qInput);
 
     const answersContainer = document.createElement("div");
 
@@ -430,18 +416,18 @@ const editQuiz = (quizId) => {
       answersContainer.appendChild(aInput);
     }
 
-    questionDiv.appendChild(answersContainer);
+    questionContainer.appendChild(answersContainer);
 
     const correctInput = document.createElement("input");
     correctInput.type = "number";
     correctInput.value = question.CorrectAnswer;
-    questionDiv.appendChild(correctInput);
+    questionContainer.appendChild(correctInput);
 
-    questionsContainer.appendChild(questionDiv);
+    questionsContainer.appendChild(questionContainer);
   });
 
   editingQuizId = quizId;
-  addQuizSubmit.textContent = "Update Quiz";
+  quizSubmitBtn.textContent = "Update Quiz";
 };
 
 const renderUpdateQuizList = () => {
@@ -452,7 +438,7 @@ const renderUpdateQuizList = () => {
     quizRow.classList.add("admin-quiz-row");
     updateQuizContainer.appendChild(quizRow);
 
-    const title = document.createElement("span");
+    const title = document.createElement("p");
     title.textContent = quiz.Title;
 
     const editBtn = document.createElement("button");
@@ -488,7 +474,7 @@ const renderDeleteQuizList = () => {
     const quizRow = document.createElement("div");
     quizRow.classList.add("admin-quiz-row");
 
-    const title = document.createElement("span");
+    const title = document.createElement("p");
     title.textContent = quiz.Title;
 
     const deleteBtn = document.createElement("button");

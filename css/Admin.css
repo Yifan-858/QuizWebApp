@@ -1,0 +1,84 @@
+.action-container,
+.add-quiz-form,
+.update-quiz-container,
+.admin-quiz-row,
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  gap: 15px;
+}
+
+.admin-quiz-row {
+  margin-top: 30px;
+}
+
+.login-container button,
+.action-container button {
+  min-height: 3rem;
+  min-width: 6rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.login-container input,
+.add-quiz-form input {
+  min-height: 2.5rem;
+  min-width: 5rem;
+  font-size: 1.5rem;
+}
+
+.action-container button:hover,
+.add-quiz-form button:hover,
+.login-container button:hover {
+  color: aliceblue;
+  background-color: var(--primary-color);
+}
+
+.add-quiz-form button {
+  min-height: 3rem;
+  min-width: 12rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.question-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.answers-container {
+  display: flex;
+  gap: 15px;
+}
+
+.quiz-submit-button {
+  font-weight: 600;
+  border-radius: 15px;
+  margin-top: 9rem;
+  color: var(--background-color);
+  background-color: var(--sub-color);
+}
+
+.quiz-submit-button:hover {
+  color: var(--background-color);
+  background-color: var(--background-color);
+}
+
+.admin-quiz-row button {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-quiz-row button:hover {
+  color: aliceblue;
+  background-color: var(--primary-color);
+}
