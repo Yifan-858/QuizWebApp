@@ -3,6 +3,7 @@ let selectedQuiz = null;
 let currentQuestionIndex = 0;
 let userScore = 0;
 let scoreBar = null;
+let editingQuizId = null;
 
 //----------------------Handle SPA---------------------//
 const showPage = (pageId) => {
@@ -21,6 +22,19 @@ const showPage = (pageId) => {
 
 const homeTitle = document.getElementById("home-title");
 homeTitle.addEventListener("click", () => showPage("quiz-select-page"));
+
+//----------------------Handle Load Reusable---------------------//
+
+const saveQuizzesToStorage = () => {
+  localStorage.setItem("quizzes", JSON.stringify(quizzes));
+};
+
+const loadQuizzesFromStorage = () => {
+  const stored = localStorage.getItem("quizzes");
+  if (stored) {
+    quizzes = JSON.parse(stored);
+  }
+};
 
 //----------------------Handle UI render---------------------//
 //-----------------------------------//
@@ -225,9 +239,6 @@ const addQuizBtn = document.createElement("button");
 addQuizBtn.textContent = "Add";
 addQuizBtn.addEventListener("click", () => handleAddQuiz());
 actionCotainer.appendChild(addQuizBtn);
-const deleteQuizBtn = document.createElement("button");
-deleteQuizBtn.textContent = "Delete";
-actionCotainer.appendChild(deleteQuizBtn);
 
 //-Add//
 const addQuizPage = document.getElementById("add-quiz-page");
@@ -317,44 +328,199 @@ addQuizSubmit.addEventListener("click", (e) => {
     const answerInputs = qForm.querySelectorAll(".answer-input");
     const correctInput = qForm.querySelector("input[type=number]");
 
-    const questionText = qInput.value.trim();
-    const options = Array.from(answerInputs).map((i) => i.value.trim());
-    const correctIndex = parseInt(correctInput.value, 10);
+    const statement = qInput.value.trim();
+    const answers = [];
 
-    if (!questionText || options.some((opt) => !opt) || isNaN(correctIndex)) {
-      alert(`Question ${qIndex + 1} is invalid. Fill all fields.`);
+    for (let i = 0; i < answerInputs.length; i++) {
+      const val = answerInputs[i].value.trim();
+      if (val === "") {
+        alert("All answers must be filled");
+        return;
+      }
+      answers.push(val);
+    }
+
+    if (!correctInput.value) {
+      alert("Choose correct answer");
       return;
     }
 
     questions.push({
       id: qIndex + 1,
-      questionText: questionText,
-      options: options,
-      answer: options[correctIndex - 1],
+      Statement: statement,
+      Answers: answers,
+      CorrectAnswer: parseInt(correctInput.value, 10),
     });
   });
 
-  const newQuiz = {
-    id: (quizzes.length + 1).toString(),
-    Title: title,
-    Questions: questions,
-  };
+  if (editingQuizId) {
+    // UPDATE
+    const quizIndex = quizzes.findIndex((q) => q.id === editingQuizId);
+    quizzes[quizIndex].Title = title;
+    quizzes[quizIndex].Questions = questions;
+  } else {
+    // ADD
+    quizzes.push({
+      id: Date.now().toString(),
+      Title: title,
+      Questions: questions,
+    });
+  }
 
-  quizzes.push(newQuiz);
-
-  localStorage.setItem("quizzes", JSON.stringify(quizzes));
-
+  saveQuizzesToStorage();
   renderQuizCard(quizzes);
 
+  editingQuizId = null;
+  addQuizSubmit.textContent = "Submit Quiz";
   titleInput.value = "";
   questionsContainer.innerHTML = "";
-  alert("Quiz added successfully!");
-  showPage("quiz-select-page");
+
+  showPage("admin-page");
 });
 
 addQuizForm.appendChild(addQuizSubmit);
 
+//Update
+const updateQuizPage = document.getElementById("update-quiz-page");
+const updateQuizContainer = document.createElement("div");
+updateQuizPage.appendChild(updateQuizContainer);
+
+const updateQuiz = (quizId) => {
+  const quizIndex = quizzes.findIndex((q) => q.id === quizId);
+  if (quizIndex === -1) return;
+
+  quizzes[quizIndex].Title = titleInput.value.trim();
+
+  saveQuizzesToStorage();
+  renderQuizCard(quizzes);
+  renderUpdateQuizList();
+
+  titleInput.value = "";
+  questionsContainer.innerHTML = "";
+
+  addQuizSubmit.textContent = "Submit Quiz";
+  showPage("admin-page");
+};
+
+const editQuiz = (quizId) => {
+  const quiz = quizzes.find((q) => q.id === quizId);
+  if (!quiz) return;
+
+  showPage("add-quiz-page");
+
+  titleInput.value = quiz.Title;
+  questionsContainer.innerHTML = "";
+
+  quiz.Questions.forEach((question) => {
+    const questionDiv = document.createElement("div");
+    questionDiv.classList.add("question-form");
+
+    const qInput = document.createElement("input");
+    qInput.type = "text";
+    qInput.value = question.Statement;
+    questionDiv.appendChild(qInput);
+
+    const answersContainer = document.createElement("div");
+
+    for (let i = 0; i < question.Answers.length; i++) {
+      const aInput = document.createElement("input");
+      aInput.type = "text";
+      aInput.value = question.Answers[i];
+      aInput.classList.add("answer-input");
+      answersContainer.appendChild(aInput);
+    }
+
+    questionDiv.appendChild(answersContainer);
+
+    const correctInput = document.createElement("input");
+    correctInput.type = "number";
+    correctInput.value = question.CorrectAnswer;
+    questionDiv.appendChild(correctInput);
+
+    questionsContainer.appendChild(questionDiv);
+  });
+
+  editingQuizId = quizId;
+  addQuizSubmit.textContent = "Update Quiz";
+};
+
+const renderUpdateQuizList = () => {
+  updateQuizContainer.innerHTML = "";
+
+  quizzes.forEach((quiz) => {
+    const quizRow = document.createElement("div");
+    quizRow.classList.add("admin-quiz-row");
+    updateQuizContainer.appendChild(quizRow);
+
+    const title = document.createElement("span");
+    title.textContent = quiz.Title;
+
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    editBtn.addEventListener("click", () => editQuiz(quiz.id));
+
+    quizRow.appendChild(title);
+    quizRow.appendChild(editBtn);
+  });
+};
+
+const handleUpdateQuiz = () => {
+  showPage("update-quiz-page");
+  updateQuizContainer.innerHTML = "";
+  renderUpdateQuizList();
+};
+
+const updateQuizBtn = document.createElement("button");
+updateQuizBtn.textContent = "Update";
+updateQuizBtn.addEventListener("click", () => handleUpdateQuiz());
+actionCotainer.appendChild(updateQuizBtn);
+
 //-Delete//
+
+const deleteQuizPage = document.getElementById("delete-quiz-page");
+const deleteQuizContainer = document.createElement("div");
+deleteQuizPage.appendChild(deleteQuizContainer);
+
+const renderDeleteQuizList = () => {
+  deleteQuizContainer.innerHTML = "";
+
+  quizzes.forEach((quiz) => {
+    const quizRow = document.createElement("div");
+    quizRow.classList.add("admin-quiz-row");
+
+    const title = document.createElement("span");
+    title.textContent = quiz.Title;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.addEventListener("click", () => deleteQuiz(quiz.id));
+
+    quizRow.appendChild(title);
+    quizRow.appendChild(deleteBtn);
+    deleteQuizContainer.appendChild(quizRow);
+  });
+};
+
+const handleDeleteQuiz = () => {
+  showPage("delete-quiz-page");
+  renderDeleteQuizList();
+};
+
+const deleteQuiz = (quizId) => {
+  const confirmed = confirm("Are you sure you want to delete this quiz?");
+  if (!confirmed) return;
+
+  quizzes = quizzes.filter((q) => q.id !== quizId);
+
+  saveQuizzesToStorage();
+  renderQuizCard(quizzes);
+  renderDeleteQuizList();
+};
+
+const deleteQuizBtn = document.createElement("button");
+deleteQuizBtn.textContent = "Delete";
+deleteQuizBtn.addEventListener("click", () => handleDeleteQuiz());
+actionCotainer.appendChild(deleteQuizBtn);
 
 //----------------------Load Quiz Data---------------------//
 const loadQuiz = async () => {
@@ -383,5 +549,5 @@ const loadQuiz = async () => {
   }
 };
 
-showPage("add-quiz-page");
+showPage("admin-page");
 loadQuiz();
