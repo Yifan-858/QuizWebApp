@@ -131,3 +131,8 @@ export const renderQuizCard = (quizzes) => {
     countContainer.appendChild(questionCount);
   });
 };
+
+//Get quizzez from localStorage
+export const getQuizzes = () => {
+  return JSON.parse(localStorage.getItem("quizzes")) || [];
+};

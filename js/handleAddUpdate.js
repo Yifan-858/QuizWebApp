@@ -1,4 +1,4 @@
-import { renderQuizCard } from "./handleRenderQuizFlow.js";
+import { renderQuizCard, getQuizzes } from "./handleRenderQuizFlow.js";
 import { quizSubmitBtn } from "./app.js";
 import { showPage } from "./handlePage.js";
 
@@ -57,8 +57,7 @@ const createQuestionForm = () => {
   correctInput.min = 1;
   correctInput.max = 4;
   correctInput.placeholder = "Correct answer number";
-  const correctIndex = correctInput - 1;
-  questionContainer.appendChild(correctIndex);
+  questionContainer.appendChild(correctInput);
 
   questionsContainer.appendChild(questionContainer);
 };
@@ -107,11 +106,13 @@ export const quizAddSubmit = (e, quizzes) => {
       return;
     }
 
+    const correctIndex = parseInt(correctInput.value, 10) - 1;
+
     questions.push({
       id: qIndex + 1,
       Statement: statement,
       Answers: answers,
-      CorrectAnswer: parseInt(correctInput.value, 10),
+      CorrectAnswer: correctIndex,
     });
   });
 
@@ -189,8 +190,9 @@ const editQuiz = (quizId, quizzes) => {
   quizSubmitBtn.textContent = "Update Quiz";
 };
 
-export const renderUpdateQuizList = (quizzes) => {
+export const renderUpdateQuizList = () => {
   updateQuizContainer.innerHTML = "";
+  const quizzes = getQuizzes();
 
   quizzes.forEach((quiz) => {
     const quizRow = document.createElement("div");

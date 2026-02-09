@@ -41,7 +41,7 @@ const loadQuiz = async () => {
   }
 };
 
-showPage("quiz-select-page");
+showPage("admin-page");
 loadQuiz();
 
 //----------------------Handle Admin Interface---------------------//
@@ -76,10 +76,10 @@ actionCotainer.appendChild(addQuizBtn);
 
 //Update UI
 
-const handleUpdateQuiz = (quizzes) => {
+const handleUpdateQuiz = () => {
   showPage("update-quiz-page");
   updateQuizContainer.innerHTML = "";
-  renderUpdateQuizList(quizzes);
+  renderUpdateQuizList();
 };
 
 const updateQuizBtn = document.createElement("button");
