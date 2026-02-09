@@ -1,216 +1,15 @@
+import { renderQuizCard } from "./handleRender.js";
+import { showPage } from "./handlePage.js";
+import { handleDeleteQuiz } from "./handleDelete.js";
+import { handleLoginClick, loginContainer } from "./handleAdmin.js";
+
 let quizzes = [];
-let selectedQuiz = null;
-let currentQuestionIndex = 0;
-let userScore = 0;
-let scoreBar = null;
 let editingQuizId = null;
-
-//----------------------Handle SPA---------------------//
-const showPage = (pageId) => {
-  document
-    .querySelectorAll("section")
-    .forEach((section) => (section.style.display = "none"));
-
-  const page = document.getElementById(pageId);
-
-  if (page.classList.contains("quiz-select-page")) {
-    page.style.display = "flex";
-  } else {
-    page.style.display = "block";
-  }
-};
 
 const homeTitle = document.getElementById("home-title");
 homeTitle.addEventListener("click", () => showPage("quiz-select-page"));
 
-//----------------------Handle Load Reusable---------------------//
-
-const saveQuizzesToStorage = () => {
-  localStorage.setItem("quizzes", JSON.stringify(quizzes));
-};
-
-const loadQuizzesFromStorage = () => {
-  const stored = localStorage.getItem("quizzes");
-  if (stored) {
-    quizzes = JSON.parse(stored);
-  }
-};
-
-//----------------------Handle UI render---------------------//
-//-----------------------------------//
-//----------Handle Score----------//
-//-----------------------------------//
-
-const scoreCount = (selectedAnswer, correctAnswer) => {
-  if (selectedAnswer == correctAnswer) {
-    userScore++;
-  }
-};
-
-const showScore = (container) => {
-  container.innerHTML = "";
-  const resultElement = document.createElement("p");
-  resultElement.classList.add("result-element");
-  resultElement.textContent = "Quiz finished! See your result below 👇";
-  container.appendChild(resultElement);
-};
-
-//-----------------------------------//
-//----------Render Question----------//
-//-----------------------------------//
-const renderSingleQuestion = (questions, container) => {
-  container.innerHTML = "";
-
-  const currentQuestion = questions[currentQuestionIndex];
-  const questionCard = document.createElement("div");
-  questionCard.classList.add("question-card");
-
-  const questionText = document.createElement("h3");
-
-  questionText.classList.add("question-text");
-  questionText.textContent = currentQuestion.Statement;
-  questionCard.appendChild(questionText);
-
-  const questionAnswerContainer = document.createElement("div");
-  questionAnswerContainer.classList.add("question-answer-container");
-  questionCard.appendChild(questionAnswerContainer);
-
-  currentQuestion.Answers.forEach((a, index) => {
-    const questionAnswerBtn = document.createElement("button");
-    questionAnswerBtn.classList.add("question-answer-btn");
-    questionAnswerBtn.textContent = a;
-
-    questionAnswerBtn.addEventListener("click", () => {
-      scoreCount(index, currentQuestion.CorrectAnswer);
-      scoreBar.textContent = `${userScore} / ${questions.length}`;
-      currentQuestionIndex++;
-
-      if (currentQuestionIndex >= questions.length) {
-        showScore(container);
-      } else {
-        renderSingleQuestion(questions, container);
-      }
-    });
-
-    questionAnswerContainer.appendChild(questionAnswerBtn);
-  });
-
-  container.appendChild(questionCard);
-};
-
-const renderQuestionContainer = (questions) => {
-  const questionPage = document.getElementById("question-page");
-  questionPage.innerHTML = "";
-  currentQuestionIndex = 0;
-  userScore = 0;
-
-  const questionContainer = document.createElement("div");
-  questionContainer.classList.add("question-container");
-  questionPage.appendChild(questionContainer);
-
-  const exitBtn = document.createElement("button");
-  exitBtn.classList.add("home-btn");
-  exitBtn.textContent = "< Homepage";
-  exitBtn.addEventListener("click", () => showPage("quiz-select-page"));
-  questionContainer.appendChild(exitBtn);
-
-  const questionContent = document.createElement("div");
-  questionContent.classList.add("question-content");
-  questionContainer.appendChild(questionContent);
-
-  renderSingleQuestion(questions, questionContent);
-
-  scoreBar = document.createElement("p");
-  scoreBar.classList.add("score-bar");
-  scoreBar.textContent = `${userScore} / ${questions.length}`;
-  questionContainer.appendChild(scoreBar);
-};
-
-//-----------------------------------//
-//----------Render Quiz----------//
-//-----------------------------------//
-const handleQuizClick = (quizId) => {
-  selectedQuiz = quizzes.find((quiz) => quiz.id == quizId);
-  showPage("question-page");
-  renderQuestionContainer(selectedQuiz.Questions);
-};
-
-const renderQuizCard = (quizzes) => {
-  const quizCardContainer = document.getElementById("quiz-card-container");
-  quizCardContainer.innerHTML = "";
-
-  quizzes.forEach((quiz) => {
-    const quizCard = document.createElement("div");
-    quizCard.classList.add("quiz-card");
-    quizCardContainer.appendChild(quizCard);
-
-    const quizTitle = document.createElement("h3");
-    quizTitle.textContent = quiz.Title;
-    quizCard.appendChild(quizTitle);
-    console.log(quiz);
-
-    const countContainer = document.createElement("div");
-    countContainer.classList.add("count-container");
-    quizCard.appendChild(countContainer);
-
-    const startBtn = document.createElement("button");
-    startBtn.textContent = "Start Quiz >";
-    startBtn.addEventListener("click", () => handleQuizClick(quiz.id));
-    quizCard.appendChild(startBtn);
-
-    const countIcon = document.createElement("i");
-    countIcon.classList.add("fa-regular");
-    countIcon.classList.add("fa-square");
-    countContainer.appendChild(countIcon);
-
-    const questionCount = document.createElement("h4");
-    questionCount.textContent = quiz.Questions.length + " questions";
-    countContainer.appendChild(questionCount);
-  });
-};
-
-//----------------------Handle Admin Login---------------------//
-const admin = { userName: "Yifan", password: "123456" };
-const handleAdminClick = () => {
-  showPage("admin-login-page");
-};
-
-const handleLoginClick = () => {
-  if (
-    userNameInput.value == admin.userName &&
-    passwordInput.value == admin.password
-  ) {
-    showPage("admin-page");
-  } else {
-    alert("Invalid Login");
-  }
-};
-
-const adminLoginBtn = document.getElementById("admin-login-btn");
-adminLoginBtn.addEventListener("click", () => handleAdminClick());
-
-const adminLoginPage = document.getElementById("admin-login-page");
-
-const loginContainer = document.createElement("div");
-loginContainer.classList.add("login-container");
-adminLoginPage.appendChild(loginContainer);
-
-const userNameLabel = document.createElement("p");
-userNameLabel.textContent = "User Name";
-loginContainer.appendChild(userNameLabel);
-
-const userNameInput = document.createElement("input");
-userNameInput.type = "text";
-loginContainer.appendChild(userNameInput);
-
-const passwordLabel = document.createElement("p");
-passwordLabel.textContent = "Password";
-loginContainer.appendChild(passwordLabel);
-
-const passwordInput = document.createElement("input");
-passwordInput.type = "password";
-loginContainer.appendChild(passwordInput);
-
+//----------------------Handle Admin Interface---------------------//
 const submitBtn = document.createElement("button");
 submitBtn.classList.add("submit-btn");
 submitBtn.textContent = "Login";
@@ -218,7 +17,6 @@ submitBtn.type = "button";
 submitBtn.addEventListener("click", () => handleLoginClick());
 loginContainer.appendChild(submitBtn);
 
-//----------------------Handle Admin Interface---------------------//
 const adminPage = document.getElementById("admin-page");
 
 const actionCotainer = document.createElement("div");
@@ -230,6 +28,7 @@ actionLabel.textContent = "Quiz Action";
 actionLabel.classList.add("action-lable");
 actionCotainer.appendChild(actionLabel);
 
+//-Add//
 const handleAddQuiz = () => {
   showPage("add-quiz-page");
 };
@@ -239,7 +38,6 @@ addQuizBtn.textContent = "Add";
 addQuizBtn.addEventListener("click", () => handleAddQuiz());
 actionCotainer.appendChild(addQuizBtn);
 
-//-Add//
 const addQuizPage = document.getElementById("add-quiz-page");
 
 const addQuizForm = document.createElement("div");
@@ -367,7 +165,8 @@ quizSubmitBtn.addEventListener("click", (e) => {
     });
   }
 
-  saveQuizzesToStorage();
+  //save to localstorage
+  localStorage.setItem("quizzes", JSON.stringify(quizzes));
   renderQuizCard(quizzes);
 
   editingQuizId = null;
@@ -461,49 +260,9 @@ actionCotainer.appendChild(updateQuizBtn);
 
 //-Delete//
 
-const deleteQuizPage = document.getElementById("delete-quiz-page");
-const deleteQuizContainer = document.createElement("div");
-deleteQuizPage.appendChild(deleteQuizContainer);
-
-const renderDeleteQuizList = () => {
-  deleteQuizContainer.innerHTML = "";
-
-  quizzes.forEach((quiz) => {
-    const quizRow = document.createElement("div");
-    quizRow.classList.add("admin-quiz-row");
-
-    const title = document.createElement("p");
-    title.textContent = quiz.Title;
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.addEventListener("click", () => deleteQuiz(quiz.id));
-
-    quizRow.appendChild(title);
-    quizRow.appendChild(deleteBtn);
-    deleteQuizContainer.appendChild(quizRow);
-  });
-};
-
-const handleDeleteQuiz = () => {
-  showPage("delete-quiz-page");
-  renderDeleteQuizList();
-};
-
-const deleteQuiz = (quizId) => {
-  const confirmed = confirm("Are you sure you want to delete this quiz?");
-  if (!confirmed) return;
-
-  quizzes = quizzes.filter((q) => q.id !== quizId);
-
-  saveQuizzesToStorage();
-  renderQuizCard(quizzes);
-  renderDeleteQuizList();
-};
-
 const deleteQuizBtn = document.createElement("button");
 deleteQuizBtn.textContent = "Delete";
-deleteQuizBtn.addEventListener("click", () => handleDeleteQuiz());
+deleteQuizBtn.addEventListener("click", () => handleDeleteQuiz(quizzes));
 actionCotainer.appendChild(deleteQuizBtn);
 
 //----------------------Load Quiz Data---------------------//
