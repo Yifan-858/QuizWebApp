@@ -57,7 +57,8 @@ const createQuestionForm = () => {
   correctInput.min = 1;
   correctInput.max = 4;
   correctInput.placeholder = "Correct answer number";
-  questionContainer.appendChild(correctInput);
+  const correctIndex = correctInput - 1;
+  questionContainer.appendChild(correctIndex);
 
   questionsContainer.appendChild(questionContainer);
 };

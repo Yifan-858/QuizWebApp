@@ -12,12 +12,18 @@ const scoreCount = (selectedAnswer, correctAnswer) => {
   }
 };
 
-const showScore = (container) => {
+const showScore = (container, questionsLength) => {
   container.innerHTML = "";
   const resultElement = document.createElement("p");
   resultElement.classList.add("result-element");
-  resultElement.textContent = "Quiz finished! See your result below 👇";
+  resultElement.textContent = "Quiz finished! See your result👇 ";
+
+  scoreBar = document.createElement("p");
+  scoreBar.classList.add("score-bar");
+  scoreBar.textContent = `${userScore} / ${questionsLength}`;
+
   container.appendChild(resultElement);
+  container.appendChild(scoreBar);
 };
 
 //----------Render Question----------//
@@ -45,11 +51,11 @@ const renderSingleQuestion = (questions, container) => {
 
     questionAnswerBtn.addEventListener("click", () => {
       scoreCount(index, currentQuestion.CorrectAnswer);
-      scoreBar.textContent = `${userScore} / ${questions.length}`;
+
       currentQuestionIndex++;
 
       if (currentQuestionIndex >= questions.length) {
-        showScore(container);
+        showScore(container, questions.length);
       } else {
         renderSingleQuestion(questions, container);
       }
@@ -82,11 +88,6 @@ export const renderQuestionContainer = (questions) => {
   questionContainer.appendChild(questionContent);
 
   renderSingleQuestion(questions, questionContent);
-
-  scoreBar = document.createElement("p");
-  scoreBar.classList.add("score-bar");
-  scoreBar.textContent = `${userScore} / ${questions.length}`;
-  questionContainer.appendChild(scoreBar);
 };
 
 //----------Render Quiz----------//
