@@ -1,4 +1,4 @@
-import { renderQuizCard } from "./handleRender.js";
+import { renderQuizCard } from "./handleRenderQuizFlow.js";
 import { showPage } from "./handlePage.js";
 import { handleDeleteQuiz } from "./handleDelete.js";
 import { handleLoginClick, loginContainer } from "./handleAdmin.js";

@@ -1,4 +1,4 @@
-import { renderQuizCard } from "./handleRender.js";
+import { renderQuizCard } from "./handleRenderQuizFlow.js";
 import { quizSubmitBtn } from "./app.js";
 import { showPage } from "./handlePage.js";
 

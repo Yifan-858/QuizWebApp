@@ -1,5 +1,5 @@
 import { showPage } from "./handlePage.js";
-import { renderQuizCard } from "./handleRender.js";
+import { renderQuizCard } from "./handleRenderQuizFlow.js";
 
 const deleteQuizPage = document.getElementById("delete-quiz-page");
 const deleteQuizContainer = document.createElement("div");
