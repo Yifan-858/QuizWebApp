@@ -41,7 +41,7 @@ const loadQuiz = async () => {
   }
 };
 
-showPage("admin-page");
+showPage("quiz-select-page");
 loadQuiz();
 
 //----------------------Handle Admin Interface---------------------//
